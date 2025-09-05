@@ -1,36 +1,115 @@
-# kuwt-agent
+kuwt-agent is an AI-powered tool designed to help you "Keep Up With Technology" by intelligently fetching and curating content based on your interests and expertise level.
 
-kuwt-agent is an AI-powered tool designed to help you "Keep Up With Technology" by automating the process of gathering, analyzing, and summarizing the latest information from the web.
+## How It Works
 
-## Architecture
+1. **Topic Selection**
+    - Specify your areas of interest (e.g., Machine Learning, Web Development, DevOps)
+    - Indicate your knowledge level (Beginner, Intermediate, Advanced)
 
-The system is composed of the following core components:
+2. **Source Discovery**
+    - AI automatically identifies top-quality sources matching your topics
+    - Sources are ranked based on credibility, relevance, and content depth
 
-1. **Web Scraper**  
-    - Crawls and collects data from various technology news sources, blogs, and forums.
-2. **Content Extractor**  
-    - Processes raw HTML to extract relevant articles, posts, and updates.
-3. **Insight Retriever**  
-    - Analyzes extracted content to identify key trends, technologies, and insights.
-4. **Summarizer**  
-    - Uses AI models to generate concise summaries of the most important findings.
-5. **Notifier**  
-    - Delivers summarized insights to users via preferred channels (email, dashboard, etc.).
-
-## Workflow
-
-1. The Web Scraper fetches new content from predefined sources.
-2. The Content Extractor parses and cleans the data.
-3. The Insight Retriever applies NLP techniques to extract meaningful information.
-4. The Summarizer condenses the insights into easy-to-read summaries.
-5. The Notifier sends updates to users, ensuring they stay informed.
+3. **Content Curation**
+    - Fetches and analyzes content from selected sources
+    - Adjusts technical complexity to match your expertise level
+    - Filters out redundant or irrelevant information
 
 ## Features
 
-- Automated web scraping and content extraction
+- Dynamic source selection based on user preferences
+- Expertise-level aware content delivery
+- Multi-format content support (articles, documentation, tutorials)
+
+## Benefits
+
+- Save time finding reliable learning resources
+- Get content matched to your knowledge level
+- Stay updated with the latest developments in your field
 - AI-driven insight retrieval and summarization
 - Customizable notification channels
 - Modular and extensible architecture
+
+## Workflow
+
+1. **Configuration**
+    - Set up your tech interests in `config.json`
+    - Define expertise levels for each topic
+    - Configure update frequency and notification methods
+
+2. **Source Management**
+    - Agent scans and validates configured sources
+    - Creates source reliability index
+    - Establishes content update schedules
+
+3. **Content Processing**
+    - Fetches new content from validated sources
+    - Analyzes technical complexity and relevance
+    - Filters and categorizes information
+
+4. **Delivery**
+    - Generates personalized content summaries
+    - Adapts technical depth based on user level
+    - Delivers through configured channels
+
+5. **Feedback Loop**
+    - Tracks user interaction with delivered content
+    - Updates source rankings
+    - Refines future content selection
+
+## Technical Requirements
+
+### Tech Stack
+- Python 3.9+
+- FastAPI for REST endpoints
+- SQLAlchemy for data persistence
+- Redis for caching
+- BeautifulSoup4 for web scraping
+- transformers (Hugging Face) for NLP tasks
+- Docker for containerization
+- pytest for testing
+
+### Core Components
+
+#### ContentFetcher
+- `fetch_content(source_url: str) -> RawContent`
+- `validate_source(source_url: str) -> bool`
+- `update_source_index(source: Source) -> None`
+
+#### ContentAnalyzer
+- `analyze_complexity(content: str) -> ComplexityScore`
+- `extract_topics(content: str) -> List[Topic]`
+- `generate_summary(content: str) -> str`
+
+#### UserManager
+- `update_preferences(user_id: str, preferences: Dict) -> None`
+- `get_expertise_level(user_id: str, topic: str) -> ExpertiseLevel`
+- `track_interaction(user_id: str, content_id: str) -> None`
+
+#### ContentDelivery
+- `format_content(content: Content, user_level: ExpertiseLevel) -> FormattedContent`
+- `send_notification(user_id: str, content: FormattedContent) -> bool`
+- `schedule_delivery(content: Content, timestamp: datetime) -> None`
+
+#### DataModels
+```python
+class Source:
+    url: str
+    reliability_score: float
+    update_frequency: timedelta
+    last_update: datetime
+
+class Content:
+    raw_text: str
+    complexity_score: float
+    topics: List[Topic]
+    source: Source
+
+class UserProfile:
+    interests: List[Topic]
+    expertise_levels: Dict[Topic, Level]
+    notification_preferences: NotificationConfig
+```
 
 ## Getting Started
 
